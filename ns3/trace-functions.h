@@ -131,6 +131,8 @@ const char* featureMap[] = {
   "TOTALDROPCOUNT",
 };
 
+using namespace std;
+
 namespace ns3 {
 
 DisplayObject Trace(std::string context, Ptr<const Packet> pkt, std::string color) {
@@ -297,9 +299,79 @@ bool cmp(std::pair<int,int>&a, std::pair<int,int> &b) {
   return a.first < b.first;
 }
 
+// void getOutput(vector<vector<DisplayObject>*> objGrid, FILE* fp, int sender, int reciever) {
+//   int numpacketsSent = objGrid[sender]->size();
+//   int numpacketsRecieved = objGrid[reciever]->size();
+//   int numpacketsDropped = numpacketsSent - numpacketsRecieved;
+//   int phycnt = 0;
+//   int ipv4cnt = 0;
+//   int maccnt = 0;
+//   int appcnt = 0;
+//   int enqueDequecnt = 0;
+//   double phyavg = 0;
+//   double macavg = 0;
+//   double ipv4avg = 0;
+//   double appavg = 0;
+//   double enqueDequeavg = 0;
+//   // create a map
+//   std::map<int,std::vector<double>> mp;
+//   int n = objGrid.size();
+
+//   for(auto &obj: *(objGrid[sender])) {
+//     if (mp.find(obj.getUid()) == mp.end()) {
+//       mp[obj.getUid()] = std::vector<double>(n);
+//     }
+//   }
+
+//   for(int i=0;i<n;i++) {
+//     for(auto &obj: *(objGrid[i])) {
+//       if (mp.find(obj.getUid()) == mp.end()) continue;
+//       mp[obj.getUid()][i] = obj.getTime();
+//     }
+//   }
+
+//   for(auto x:mp) {
+//     if (x.second[PHYTXBEGINENUM] > 0 && x.second[PHYRXENDNUM] > 0) {
+//       phyavg += (x.second[PHYRXENDNUM] - x.second[PHYTXBEGINENUM]);
+//       phycnt++;
+//     }
+//     if (x.second[IPV4L3PROTOCOLTXNUM] > 0 && x.second[IPV4L3PROTOCOLRXNUM] > 0) {
+//       ipv4avg += (x.second[IPV4L3PROTOCOLRXNUM] - x.second[IPV4L3PROTOCOLTXNUM]);
+//       ipv4cnt++;
+//     }
+//     if (x.second[MACTXNUM] > 0 && x.second[MACRXNUM] > 0) {
+//       macavg += (x.second[MACRXNUM] - x.second[MACTXNUM]);
+//       maccnt++;
+//     }
+//     if (x.second[sender] > 0 && x.second[reciever] > 0) {
+//       appavg += (x.second[reciever] - x.second[sender]);
+//       appcnt++;
+//     }
+//     if (x.second[MACENQUEUENUM] > 0 && x.second[MACDEQUEUENUM] > 0) {
+//       enqueDequeavg += (x.second[MACDEQUEUENUM] - x.second[MACENQUEUENUM]);
+//       enqueDequecnt++;
+//     }
+//   }
+
+//   enqueDequeavg /= enqueDequecnt;
+//   macavg /= maccnt;
+//   phyavg /= phycnt;
+//   ipv4avg /= ipv4cnt;
+//   appavg /= appcnt;
+
+//   cout<<"Total Transmitted packets: "<<numpacketsSent<<endl;
+//   cout<<"Total Received packets: "<<numpacketsRecieved<<endl;
+//   cout<<"Total Dropped packets: "<<numpacketsDropped<<endl;
+
+//   cout<<"AppAvg: "<<appavg<<endl;
+//   cout<<"Ipv4Avg: "<<ipv4avg<<endl;
+//   cout<<"EnqueDequeAvg: "<<enqueDequeavg<<endl;
+//   cout<<"MacAvg: "<<macavg<<endl;
+//   cout<<"phyAvg : "<<phyavg<<endl;
+// }
+
 void getTimeTrace(std::vector<std::vector<DisplayObject>*> objGrid, int clr, FILE* fp=NULL) {
   std::map<int, std::vector<std::pair<std::string,double>>> mp;
-  std::cout<<"this is "<<clr<<std::endl;
   int n = objGrid.size();
 
   for(auto &obj: *(objGrid[clr])) {
